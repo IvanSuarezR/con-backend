@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# Django/Build artifacts
+staticfiles/
+media/
+db.sqlite3
+
+# VCS
+.git/
+.gitignore
+
+# Node/Frontend/Flutter (exclude from backend image)
+web_Frontend/
+movil/
+node_modules/
+
+# OS/Editor
+.DS_Store
+*.swp
+*.swo
+.vscode/
