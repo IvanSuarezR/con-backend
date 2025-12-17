@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#hz+%^0c%&lc1=-okv7pn*+nevtr!#96y@k!5)6%h#kw(v7vqg'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.100.132', 'localhost', '127.0.0.1', '10.0.2.2']
+ALLOWED_HOSTS = ['192.168.100.132', 'localhost', '127.0.0.1', '10.0.2.2', 'condominio-backend-741019382008.us-central1.run.app']
 
 
 # Application definition
@@ -64,6 +64,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite default port
     "http://127.0.0.1:5173",
+    "https://condominio-frontend-741019382008.us-central1.run.app/",
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
