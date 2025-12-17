@@ -29,15 +29,19 @@ jobs:
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
-            --set-env-vars "DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},SECRET_KEY=${{ secrets.SECRET_KEY }},DJANGO_SETTINGS_MODULE=condominio_BackendAPI.settings"
+            --set-env-vars "DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},SECRET_KEY=${{ secrets.SECRET_KEY }},DJANGO_SETTINGS_MODULE=condominio_BackendAPI.settings,DJ_USERNAME=${{ secrets.DJ_USERNAME }},DJ_PASSWORD=${{ secrets.DJ_PASSWORD }},DJ_EMAIL=${{ secrets.DJ_EMAIL }}"
 
-      - name: 'Build and Deploy Frontend'
+      - name: 'Build, Push and Deploy Frontend (using GitHub secret)'
         run: |-
-          gcloud builds submit ./web_Frontend \
-            --config ./web_Frontend/cloudbuild.yaml \
-            --substitutions=_IMAGE_NAME="gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend",_VITE_API_URL="${{ secrets.VITE_API_URL }}"
+          cd web_Frontend
+          # Build the frontend image locally in the Actions runner using the secret
+          docker build --build-arg VITE_API_URL="${{ secrets.VITE_API_URL }}" -t gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend:${{ github.sha }} .
+          # Ensure docker is configured for GCR and push the image
+          gcloud auth configure-docker --quiet
+          docker push gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend:${{ github.sha }}
+          # Deploy to Cloud Run using the pushed image
           gcloud run deploy condominio-frontend \
-            --image gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend \
+            --image gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend:${{ github.sha }} \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated

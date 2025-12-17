@@ -22,8 +22,13 @@ RUN pip install gunicorn
 # Copiar el resto del código de la aplicación
 COPY . .
 
+# Copiar y dar permisos al entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Exponer el puerto en el que correrá la aplicación (Cloud Run usa 8080 por defecto)
 EXPOSE 8080
 
-# Comando para correr la aplicación usando gunicorn
+# Usar entrypoint para ejecutar migraciones y crear superusuario antes de iniciar gunicorn
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "condominio_BackendAPI.wsgi:application"]
