@@ -8,6 +8,7 @@ __pycache__/
 .venv/
 venv/
 env/
+.env
 
 # Django/Build artifacts
 staticfiles/
@@ -17,6 +18,9 @@ db.sqlite3
 # VCS
 .git/
 .gitignore
+.github/
+.vscode/
+
 
 # Node/Frontend/Flutter (exclude from backend image)
 web_Frontend/
