@@ -40,6 +40,12 @@ DEBUG = os.environ.get("DEBUG", "False") == "True" or SECRET_KEY == 'django-inse
 
 ALLOWED_HOSTS = ['192.168.100.132', 'localhost', '127.0.0.1', '10.0.2.2', 'condominio-backend-741019382008.us-central1.run.app']
 
+# CSRF trusted origins for production
+CSRF_TRUSTED_ORIGINS = [
+    'https://condominio-backend-741019382008.us-central1.run.app',
+    'https://condominio-frontend-741019382008.us-central1.run.app',
+]
+
 
 # Application definition
 
