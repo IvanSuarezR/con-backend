@@ -44,6 +44,7 @@ ALLOWED_HOSTS = ['192.168.100.132', 'localhost', '127.0.0.1', '10.0.2.2', 'condo
 CSRF_TRUSTED_ORIGINS = [
     'https://condominio-backend-741019382008.us-central1.run.app',
     'https://condominio-frontend-741019382008.us-central1.run.app',
+    'http://localhost:5173',
 ]
 
 
@@ -78,7 +79,7 @@ MIDDLEWARE = [
 ]
 
 # CORS configuration
-CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite default port
     "http://127.0.0.1:5173",
