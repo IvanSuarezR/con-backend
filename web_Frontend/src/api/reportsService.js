@@ -1,6 +1,7 @@
 import { authService } from './authService';
 
-const base = '/api/reportes';
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000') + '/api';
+const base = `${API_URL}/reportes`;
 
 async function get(url, params = {}) {
   const qs = new URLSearchParams(params).toString();
