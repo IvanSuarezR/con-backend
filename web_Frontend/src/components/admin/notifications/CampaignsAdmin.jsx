@@ -28,7 +28,7 @@ export default function CampaignsAdmin() {
         // Optional: fetch admins count for estimator
         try {
           const token = localStorage.getItem('token');
-          const res = await fetch('http://localhost:8000/api/notificaciones/admins-count/', { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/notificaciones/admins-count/`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
           const j = await res.json().catch(()=>({admins:0}));
           setAdminsCount(Number(j?.admins || 0));
         } catch {}

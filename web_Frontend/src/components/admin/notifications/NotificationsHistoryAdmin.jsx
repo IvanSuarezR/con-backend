@@ -67,7 +67,7 @@ export default function NotificationsHistoryAdmin() {
     try {
       setLoading(true); setError('');
       const params = { ...(tipo ? { tipo } : {}), ...actualRange };
-      const res = await fetch(`http://localhost:8000/api/notificaciones/historial/?${new URLSearchParams(params).toString()}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/notificaciones/historial/?${new URLSearchParams(params).toString()}`, {
         headers: localStorage.getItem('token') ? { Authorization: `Bearer ${localStorage.getItem('token')}` } : {}
       });
       const data = await res.json();
@@ -86,7 +86,7 @@ export default function NotificationsHistoryAdmin() {
     setSelectedSummary(summary || null);
     setDetail([]); setDetailLoading(true); setDetailSearch(''); setDetailLeida('');
     try {
-      const res = await fetch(`http://localhost:8000/api/notificaciones/historial/${bid}/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/notificaciones/historial/${bid}/`, {
         headers: localStorage.getItem('token') ? { Authorization: `Bearer ${localStorage.getItem('token')}` } : {}
       });
       const data = await res.json();
