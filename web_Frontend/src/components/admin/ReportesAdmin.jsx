@@ -24,12 +24,13 @@ export default function ReportesAdmin() {
   const [columnsOpen, setColumnsOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState([]);
 
+  const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000') + '/api';
   const endpointMap = {
-    residentes: '/api/reportes/residentes/',
-    familias: '/api/reportes/familias/',
-    accesos: '/api/reportes/accesos/',
-    reservas: '/api/reportes/reservas/',
-    visitas: '/api/reportes/visitas/',
+    residentes: `${API_URL}/reportes/residentes/`,
+    familias: `${API_URL}/reportes/familias/`,
+    accesos: `${API_URL}/reportes/accesos/`,
+    reservas: `${API_URL}/reportes/reservas/`,
+    visitas: `${API_URL}/reportes/visitas/`,
   };
   // Client-side PDF styles
   const styles = useMemo(() => StyleSheet.create({

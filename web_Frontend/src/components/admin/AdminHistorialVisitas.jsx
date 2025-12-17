@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { authService } from '../../api/authService';
 
-const api = axios.create({ baseURL: '/api' });
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000') + '/api';
+const api = axios.create({ baseURL: API_URL });
+
 api.interceptors.request.use((config) => {
   const t = authService.getToken?.();
   if (t) config.headers.Authorization = `Bearer ${t}`;
