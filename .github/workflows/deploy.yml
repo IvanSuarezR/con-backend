@@ -29,7 +29,7 @@ jobs:
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
-            --set-env-vars "DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},DJANGO_SETTINGS_MODULE=condominio_BackendAPI.settings"
+            --set-env-vars "DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},SECRET_KEY=${{ secrets.SECRET_KEY }},DJANGO_SETTINGS_MODULE=condominio_BackendAPI.settings"
 
       - name: 'Build and Deploy Frontend'
         run: |-

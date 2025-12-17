@@ -16,15 +16,27 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Try to load local .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv(BASE_DIR / '.env')
+except ImportError:
+    pass
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# Read SECRET_KEY from environment (set this in GitHub Secrets / Cloud Run).
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
+# Fallback for local development
+if not SECRET_KEY:
+    SECRET_KEY = 'django-insecure-dev-key-fallback'
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Debug is True if explicitly set OR if we are using the fallback key
+DEBUG = os.environ.get("DEBUG", "False") == "True" or SECRET_KEY == 'django-insecure-dev-key-fallback'
 
 ALLOWED_HOSTS = ['192.168.100.132', 'localhost', '127.0.0.1', '10.0.2.2', 'condominio-backend-741019382008.us-central1.run.app']
 
@@ -64,7 +76,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Vite default port
     "http://127.0.0.1:5173",
-    "https://condominio-frontend-741019382008.us-central1.run.app/",
+    "https://condominio-frontend-741019382008.us-central1.run.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
