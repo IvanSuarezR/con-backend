@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://condominio-backend-741019382008.us-central1.run.app/',
         changeOrigin: true,
         secure: false,
       }
