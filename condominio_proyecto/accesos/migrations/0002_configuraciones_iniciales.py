@@ -35,7 +35,7 @@ def eliminar_configuraciones(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('accesos', '0001_initial'),
+        ('accesos', '0003_configuracionacceso_familia_autorizacionvisita_and_more'),
     ]
 
     operations = [
