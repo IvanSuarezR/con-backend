@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform, kReleaseMode;
 
 // URLs del backend
 const String PRODUCTION_URL = 'https://condominio-backend-741019382008.us-central1.run.app';
@@ -8,7 +8,8 @@ const String EMULATOR_URL = 'http://10.0.2.2:8000';
 // Configuración de entorno:
 // - true: usar PRODUCTION_URL (para APK releases)
 // - false: usar localhost/LAN para desarrollo
-const bool USE_PRODUCTION = bool.fromEnvironment('USE_PRODUCTION', defaultValue: false);
+// Por defecto, usa Producción si estamos en modo Release (APK generado), y Local si es Debug.
+const bool USE_PRODUCTION = bool.fromEnvironment('USE_PRODUCTION', defaultValue: kReleaseMode);
 
 // Si normalmente pruebas en DISPOSITIVO FISICO Android, dejalo en true para usar LAN_BASE_URL.
 // Si usas principalmente EMULADOR Android, ponlo en false para usar EMULATOR_URL.
