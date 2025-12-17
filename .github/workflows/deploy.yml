@@ -1,0 +1,43 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: 'Build and Deploy Backend'
+        run: |-
+          gcloud builds submit ./condominio_proyecto --tag gcr.io/${{ steps.auth.outputs.project_id }}/condominio-backend
+          gcloud run deploy condominio-backend \
+            --image gcr.io/${{ steps.auth.outputs.project_id }}/condominio-backend \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --set-env-vars "DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_HOST=${{ secrets.DB_HOST }},DJANGO_SETTINGS_MODULE=condominio_BackendAPI.settings"
+
+      - name: 'Build and Deploy Frontend'
+        run: |-
+          gcloud builds submit ./web_Frontend \
+            --config ./web_Frontend/cloudbuild.yaml \
+            --substitutions=_IMAGE_NAME="gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend",_VITE_API_URL="${{ secrets.VITE_API_URL }}"
+          gcloud run deploy condominio-frontend \
+            --image gcr.io/${{ steps.auth.outputs.project_id }}/condominio-frontend \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
